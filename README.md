@@ -26,22 +26,3 @@ Big_data/
 ├── db_config.py # Database connection setup
 ├── sales_transactions_3200000.csv # Input dataset (not included in repo)
 └── README.md # Project documentation
-#🗄️ Database Configuration
-
-Update db_config.py with your PostgreSQL connection details:
-import psycopg2
-
-def get_connection():
-    try:
-        conn = psycopg2.connect(
-            dbname="Big_Data",
-            user="postgres",
-            password="postabnet",
-            host="localhost",
-            port="5432"
-        )
-        print("Database connection established successfully.")
-        return conn
-    except Exception as e:
-        print("Database connection failed:", e)
-        raise
