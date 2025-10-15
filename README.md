@@ -26,3 +26,6 @@ Big_data/
 ├── db_config.py # Database connection setup
 ├── sales_transactions_3200000.csv # Input dataset (not included in repo)
 └── README.md # Project documentation
+#🗄️ Database Configuration
+
+Update db_config.py with your PostgreSQL connection
