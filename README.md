@@ -15,62 +15,43 @@ It processes network intrusion detection datasets containing network flow featur
 The pipeline processes network intrusion detection datasets from the Canadian Institute for Cybersecurity:
 
 Primary Dataset Sources:
-. CIC-IDS2017 Cleaned and Preprocessed - Preprocessed version of the CIC-IDS2017 dataset https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed/data
+. CIC-IDS2017 Cleaned and Preprocessed - Preprocessed version of the CIC-IDS2017 dataset: https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed/data
 
-. Network Intrusion Dataset - Additional network intrusion data from CIC
+. Network Intrusion Dataset - Additional network intrusion data from CIC: https://www.kaggle.com/datasets/chethuhn/network-intrusion-dataset
 
 Dataset Contents:
 Network flow statistics (duration, packet counts, packet lengths)
-
 Protocol features (TCP flags, window sizes)
-
 Timing statistics (inter-arrival times, active/idle times)
-
 Attack classification labels for intrusion detection
-
 Various attack types including DDoS, Brute Force, Infiltration, Web Attacks, and more
 
 🔄 ETL Process Steps
 1. Extract
 Reads network flow CSV files in chunks to handle large files
-
 Combines chunks into a single DataFrame for processing
-
 Supports multiple CIC datasets for comprehensive analysis
 
 2. Transform
 Missing Value Treatment:
-
 Numeric columns filled with mean values
-
 Categorical columns filled with mode values
-
 Duplicate Removal: Identifies and removes duplicate rows across all features
-
 Data Validation: Checks data quality and structure
-
 Type Conversion: Ensures proper data types for network features
 
 3. Load
 Creates optimized PostgreSQL table with proper data types
-
 Uses batch insertion for high-performance loading
-
 Commits data in manageable chunks (100,000 records)
-
 Maintains data integrity through transaction management
 
 🗄️ Database Schema
 The pipeline creates a table with the following structure:
-
 flow_id (SERIAL PRIMARY KEY) - Unique identifier
-
 Network features: destination_port, flow_duration, total_fwd_packets, etc.
-
 Statistical features: flow_iat_mean, flow_iat_std, active_mean, etc.
-
 Protocol flags: fin_flag_count, rst_flag_count, ack_flag_count, etc.
-
 Classification: attack_type - Target variable for intrusion detection
 
 📁 Project Structure
@@ -83,31 +64,21 @@ Big_data/
 └── README.md                # Project documentation
 🚀 Usage
 Configure Database: Update db_config.py with your PostgreSQL credentials
-
 Prepare Data: Download datasets from Kaggle and ensure CSV files are in the project directory
-
 Run Pipeline: Execute the script and enter the desired table name when prompted
-
 Monitor Progress: The script provides real-time updates on data processing stages
 
 ⚡ Performance Optimizations
 Chunked Reading: Handles large files without memory overflow
-
 Batch Insertion: Uses execute_batch for efficient database operations
-
 Transaction Management: Commits in chunks to maintain database performance
-
 Data Type Optimization: Uses appropriate PostgreSQL data types for each feature
 
 🎯 Use Cases
 Network Security Analysis - Process and store network flow data for intrusion detection
-
 Machine Learning Pipelines - Prepare cleaned datasets for security ML models
-
 Security Research - Efficiently manage and query large network datasets
-
 Data Warehousing - Build structured repositories for network security analytics
-
 Threat Intelligence - Analyze patterns across multiple cybersecurity datasets
 
 🔬 About Canadian Institute for Cybersecurity
@@ -115,12 +86,8 @@ The datasets used in this project are provided by the Canadian Institute for Cyb
 
 📈 Output
 Clean, deduplicated network flow data in PostgreSQL
-
 Comprehensive data quality report
-
 Structured database ready for analysis and modeling
-
 Scalable pipeline capable of handling large-scale network datasets
-
 Prepared data for machine learning and security analytics
 
