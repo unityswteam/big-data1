@@ -21,22 +21,27 @@ CREATE TABLE IF NOT EXISTS sales_transactions (
 """
 cursor.execute(create_table_query)
 conn.commit()
-print("✅ Table created successfully.")
+print("Table created successfully.")
 
 
 # EXTRACT + DEDUPLICATE IN MEMORY
-
 csv_path = "sales_transactions_3200000.csv"
-print(" Reading full CSV into memory...")
+chunk_size = 100000
+print("Reading full CSV in chunks...")
 
-# Load full dataset once
-df = pd.read_csv(csv_path)
-print(f"Total rows before deduplication: {len(df)}")
+chunks = []
+for chunk in pd.read_csv(csv_path, chunksize=chunk_size):
+    chunks.append(chunk)
+df = pd.concat(chunks, ignore_index=True)
+
+before = len(df)
+print(f"Total rows before deduplication: {before}")
+
 
 # Remove duplicates globally (no saving to file)
 df.drop_duplicates(inplace=True)
-print(f" Removed {len(df)} duplicate rows globally. Remaining: {len(df)}")
-
+after = len(df)
+print(f" Removed {before - after} duplicate rows globally. Remaining: {after}")
 
 # TRANSFORM (Fill Missing Values, Fix Totals)
 
