@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS {table_name} (
     attack_type BIGINT
 );
 """
-
 cursor.execute(create_table_query)
 conn.commit()
 print(f"Table '{table_name}' created successfully.")
@@ -69,23 +68,14 @@ before = len(df)
 print(f"Total rows before duplicated rows are removed: {before}")
 
 # Finding missing_values for all features
-
 missing_values = df.isnull().sum()
 missing_cols = []
-missing_values.sort_values(ascending=False).plot(kind='bar', figsize=(12, 6), color='tomato')
-# plt.title("Missing Values Per Feature")
-# plt.ylabel("Number of Missing Values")
-# plt.xticks(rotation=90)
-# plt.grid(True)
-# plt.show()
-
 for col in df.columns:
     if df[col].isnull().any():
         print(f"Column '{col}' has missing values. {df[col].isnull().sum()} with {df[col].dtype} data_type")
         missing_cols.append(col)
 
 # Missing values treatment
-
 if missing_values.sum() > 0:
     print("Missing values found. Proceeding with imputation.")
     for col in missing_cols:
@@ -111,7 +101,6 @@ if len(duplicates) > 0:
     print(f"Current shape of the dataset: {df.shape}")
 
 # Load into postgreSQL in chunks
-chunk_size = 100000
 print("Loading data into PostgreSQL...")
 
 insert_query = f"""

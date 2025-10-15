@@ -2,8 +2,16 @@
 
 .env
 cic_ids_2017.csv
-__pycache__/
+
+# Ignore virtual environments
 .venv/
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+
 .vscode/
 .   idea/
 *.sqlite3
