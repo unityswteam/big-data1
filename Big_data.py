@@ -1,4 +1,6 @@
 from db_config import get_connection
+from psycopg2.extras import execute_batch
+import pandas as pd
 
 conn = get_connection()
 cursor = conn.cursor()
@@ -22,9 +24,7 @@ conn.commit()
 print("✅ Table created successfully.")
 
 
-
-
-# STEP 3: EXTRACT + DEDUPLICATE IN MEMORY
+# EXTRACT + DEDUPLICATE IN MEMORY
 
 csv_path = "sales_transactions_3200000.csv"
 print(" Reading full CSV into memory...")
@@ -38,7 +38,7 @@ df.drop_duplicates(inplace=True)
 print(f" Removed {len(df)} duplicate rows globally. Remaining: {len(df)}")
 
 
-# STEP 4: TRANSFORM (Fill Missing Values, Fix Totals)
+# TRANSFORM (Fill Missing Values, Fix Totals)
 
 for col in df.columns:
     if df[col].isnull().sum() > 0:
@@ -57,3 +57,27 @@ if {'price', 'quantity', 'total'}.issubset(df.columns):
         lambda r: r['price'] * r['quantity'] if pd.isnull(r['total']) or r['total'] == 0 else r['total'],
         axis=1
     )
+
+# Load into postgreSQL in chunks
+chunk_size = 100000
+print("Loading data into PostgreSQL...")
+
+insert_query = """
+INSERT INTO sales_transactions (
+    transaction_id, date, product, category, price, quantity, total, payment_method, country
+)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+ON CONFLICT (transaction_id) DO NOTHING;
+"""
+
+for i in range(0, len(df), chunk_size):
+    chunk = df.iloc[i:i + chunk_size]
+    records = [tuple(x) for x in chunk.to_numpy()]
+    execute_batch(cursor, insert_query, records)
+    conn.commit()
+    print(f"✅ Loaded chunk {i // chunk_size + 1} ({len(records)} rows) into PostgreSQL")
+
+# close connections
+cursor.close()
+conn.close()
+print("\nETL Process completed successfully without creating extra files!")
