@@ -25,13 +25,17 @@ print("✅ Table created successfully.")
 
 
 # EXTRACT + DEDUPLICATE IN MEMORY
-
 csv_path = "sales_transactions_3200000.csv"
-print(" Reading full CSV into memory...")
+chunk_size = 100000
+print("Reading full CSV in chunks...")
 
-# Load full dataset once
-df = pd.read_csv(csv_path)
+chunks = []
+for chunk in pd.read_csv(csv_path, chunksize=chunk_size):
+    chunks.append(chunk)
+df = pd.concat(chunks, ignore_index=True)
+
 print(f"Total rows before deduplication: {len(df)}")
+
 
 # Remove duplicates globally (no saving to file)
 df.drop_duplicates(inplace=True)
@@ -59,7 +63,6 @@ if {'price', 'quantity', 'total'}.issubset(df.columns):
     )
 
 # Load into postgreSQL in chunks
-chunk_size = 100000
 print("Loading data into PostgreSQL...")
 
 insert_query = """
