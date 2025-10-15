@@ -1,6 +1,7 @@
 🧠 Network Flow Data ETL Pipeline (PostgreSQL + Pandas + Python)
 📋 Overview
-This project demonstrates a scalable ETL (Extract, Transform, Load) pipeline for network flow data using Python, Pandas, and PostgreSQL. It processes network intrusion detection datasets containing network flow features for cybersecurity analysis.
+This project demonstrates a scalable ETL (Extract, Transform, Load) pipeline for network flow data using Python, Pandas, and PostgreSQL. 
+It processes network intrusion detection datasets containing network flow features for cybersecurity analysis.
 
 ⚙️ Features
 ✅ Automated Database Connection - Connects to PostgreSQL using configuration
@@ -14,7 +15,7 @@ This project demonstrates a scalable ETL (Extract, Transform, Load) pipeline for
 The pipeline processes network intrusion detection datasets from the Canadian Institute for Cybersecurity:
 
 Primary Dataset Sources:
-. CIC-IDS2017 Cleaned and Preprocessed - Preprocessed version of the CIC-IDS2017 dataset
+. CIC-IDS2017 Cleaned and Preprocessed - Preprocessed version of the CIC-IDS2017 dataset https://www.kaggle.com/datasets/ericanacletoribeiro/cicids2017-cleaned-and-preprocessed/data
 
 . Network Intrusion Dataset - Additional network intrusion data from CIC
 
