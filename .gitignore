@@ -1,3 +1,10 @@
-/.venv/
-/__pycache__/
+# Ignore file for big-data1 project
+
 .env
+sales_transactions_3200000.csv
+__pycache__/
+.venv/
+.vscode/
+.idea/
+*.sqlite3
+*.log
